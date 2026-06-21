@@ -4,8 +4,9 @@ import numpy as np
 from random import sample
 
 # 设置源目录和目标目录
-src_dir = 'd:/Desktop/Raicom/P1'
-dst_dir = 'd:/Desktop/Raicom/P1/result'
+src_dir = './'
+dst_dir = 'result'
+
 
 # 如果目标目录不存在，则创建它
 if not os.path.exists(dst_dir):
