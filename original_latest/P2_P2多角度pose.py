@@ -8,8 +8,8 @@ from collections import Counter
 
 CONFIG = {
     "model_path": "yolov8l-pose.pt",
-    "input_folder":  "d:/Desktop/Raicom/R/P2/",
-    "output_folder": "d:/Desktop/Raicom/R/P2/result",
+    "input_folder":  "./",
+    "output_folder": "result",
     "sample_size": 200,
     "upper_body_indices": [5, 6, 7, 8],  # COCO: 左肩, 右肩, 左肘, 右肘
 }
