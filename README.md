@@ -19,6 +19,7 @@
 | P3 | `P3/P3.py` | `src/p3_building_fire.py` |
 
 `original_latest/` 中保留了三份原始最新脚本，便于对照。
+P3代码文件丢失，代码仅为部分功能
 
 ## 安装依赖
 
