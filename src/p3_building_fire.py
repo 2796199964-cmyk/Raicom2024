@@ -12,8 +12,8 @@ reader = easyocr.Reader(['ch_sim'])
 # 文件夹路径
 folder_path = os.environ.get('P3_INPUT_DIR', 'data/P3')
 
-# 获取文件夹中所有的.jpg文件
-selected_files = [f for f in os.listdir(folder_path) if f.endswith('.jpg')]
+# 获取文件夹中所有的.jpg文件（支持大小写）
+selected_files = [f for f in os.listdir(folder_path) if f.lower().endswith('.jpg')]
 
 # 遍历选中的文件并处理
 for file_name in selected_files:
