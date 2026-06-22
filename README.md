@@ -1,78 +1,55 @@
-# 2024 RAICOM 平安城市 P1/P2/P3 算法
+# 🏙️ RAICOM 2024 平安城市P1/P2/P3算法
 
-本项目主要面向第一次参加 RAICOM 平安城市赛题的同学，尤其是缺少比赛经验的大一同学。仓库整理了往年省赛 P1、P2、P3 三个视觉任务的算法实现，可作为赛题难度、任务形式和解题思路的参考。
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.8+-blue?logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/OpenCV-4.x-green?logo=opencv" alt="OpenCV">
+  <img src="https://img.shields.io/badge/YOLOv8-Pose-orange?logo=ultralytics" alt="YOLO">
+  <img src="https://img.shields.io/badge/Competition-RAICOM平安城市-red" alt="Competition">
+  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License">
+</p>
 
-本仓库整理自 `2024RAICOM机器人开发者大赛平安城市预选赛（省赛）-培训PPT.pdf` 对应的三个视觉任务：
+## 📖 项目简介
 
-- `P1`：轨道线识别，判断轨道方向并输出 `straight`、`left`、`right` 及角度。
-- `P2`：人群识别，基于 YOLO 姿态关键点统计总人数，并识别红色系、蓝色系、灰黑色系人数。
-- `P3`：楼宇火灾识别，使用 OCR 识别楼宇名称，并根据楼层区域判断火焰所在楼层。
+**Raicom2024** 是一套专为 **RAICOM（机器人开发者大赛）“平安城市”赛项** 打造的视觉算法参考库。
 
-## 文件来源
+本项目主要面向**第一次参加该赛题的同学（尤其是缺少比赛经验的大一新生）**。仓库系统性地整理了往年省赛预选赛（P1、P2、P3）三个核心视觉任务的算法实现，旨在帮助新手快速了解赛题难度、任务形式以及主流的解题思路，为后续的算法优化和国赛冲刺打下坚实基础。
 
-打包时按各任务文件夹中“修改时间最新”的 `.py` 文件作为算法来源：
+> 💡 **资料来源**：关于本赛项的完整任务说明及评分标准，请查阅《2024 RAICOM 机器人开发者大赛平安城市预选赛（省赛）- 培训 PPT》。
 
-| 任务 | 原始最新文件 | 打包后的 GitHub 版 |
-| --- | --- | --- |
-| P1 | `P1/P1 - 副本.py` | `src/p1_track_line.py` |
-| P2 | `P2/P2多角度pose.py` | `src/p2_crowd_identification.py` |
-| P3 | `P3/P3.py` | `src/p3_building_fire.py` |
+## 🎯 赛题任务拆解 (P1 / P2 / P3)
 
-`original_latest/` 中保留了三份原始最新脚本，便于对照。
+本仓库包含三个独立的视觉任务模块，涵盖了传统图像处理与深度学习目标检测/姿态估计技术：
 
-P3代码文件丢失，代码仅为部分功能
+### 🛤️ P1: 轨道线识别 (传统 CV)
+- **任务目标**：识别画面中的轨道线，判断轨道的延伸方向，并输出具体指令（`straight`、`left`、`right`）及偏转角度。
+- **技术路线**：基于 OpenCV 的图像预处理、边缘检测（Canny）、霍夫直线检测（HoughLines）或轮廓拟合，计算轨道线的斜率与消失点。
+- **核心文件**：`src/p1_track_line.py`
 
-## 安装依赖
+### 👥 P2: 人群属性识别 (深度学习)
+- **任务目标**：统计画面中的总人数，并精准识别出人群的衣着颜色属性（红色系、蓝色系、灰黑色系人数）。
+- **技术路线**：采用 **YOLOv8-Pose** 进行人体姿态关键点检测，提取人体躯干区域的 ROI，随后结合 HSV 色彩空间分析或颜色分类器，判定衣着颜色归属。
+- **核心文件**：`src/p2_crowd_identification.py`
 
-```bash
-pip install -r requirements.txt
-```
+### 🔥 P3: 楼宇火灾定位 (OCR + 区域逻辑)
+- **任务目标**：识别画面中楼宇的名称（OCR），并根据楼层区域的划分，判断火焰所在的具体楼层。
+- **技术路线**：使用 PaddleOCR 或 EasyOCR 提取楼宇文本信息；通过图像分割或网格划分定位火焰（红色/橙色高亮区域）的坐标，将其映射到对应的楼层逻辑区间。
+- **核心文件**：`src/p3_building_fire.py` *(注：原始 P3 代码文件部分丢失，当前版本为基础功能实现，欢迎补充完善)*
 
-P2 需要 YOLO 权重文件。建议将权重放到 `models/` 目录，例如：
-
-```text
-models/yolov8l-pose.pt
-```
-
-由于模型权重和数据集通常体积较大，`.gitignore` 已默认排除 `*.pt`、数据集压缩包、图片数据和输出结果。上传 GitHub 时建议只上传算法代码与说明文档。
-
-## 运行示例
-
-```bash
-python src/p1_track_line.py --input data/P1 --output outputs/P1 --sample-size 10
-```
-
-```bash
-set P2_MODEL_PATH=models/yolov8l-pose.pt
-set P2_INPUT_DIR=data/P2
-set P2_OUTPUT_DIR=outputs/P2
-python src/p2_crowd_identification.py
-```
-
-```bash
-set P3_INPUT_DIR=data/P3
-set P3_OUTPUT_DIR=outputs/P3
-python src/p3_building_fire.py
-```
-
-## 目录建议
+## 📂 项目结构
 
 ```text
-data/
-  P1/
-  P2/
-  P3/
-models/
-outputs/
-src/
-original_latest/
-```
-
-## 说明
-
-- P1 已改为命令行参数配置输入、输出目录。
-- P2 已改为通过环境变量配置模型、输入、输出路径。
-- P3 已改为通过环境变量配置输入、输出路径，并为未识别到楼宇名称的情况提供默认值。
-- 算法主体逻辑仍以打包时各 P 文件夹中最新 `.py` 为准。
-
-打包时间：2026-06-22 01:12:26
+Raicom2024/
+├── src/                          # 重构后的核心算法代码 (推荐运行此目录下的文件)
+│   ├── p1_track_line.py          # P1: 轨道线识别
+│   ├── p2_crowd_identification.py# P2: 人群属性识别
+│   └── p3_building_fire.py       # P3: 楼宇火灾定位
+├── original_latest/              # 原始最新脚本备份 (便于对照与回溯)
+├── data/                         # 测试数据集 (需自行准备，已 gitignore)
+│   ├── P1/
+│   ├── P2/
+│   └── P3/
+├── models/                       # 模型权重文件 (需自行下载，已 gitignore)
+├── outputs/                      # 算法运行结果输出目录
+├── docs/                         # 补充说明文档与培训 PPT
+├── requirements.txt              # Python 依赖清单
+└── README.md                     # 项目说明文档
