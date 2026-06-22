@@ -44,11 +44,15 @@ Raicom2024/
 │   ├── p2_crowd_identification.py# P2: 人群属性识别
 │   └── p3_building_fire.py       # P3: 楼宇火灾定位
 ├── original_latest/              # 原始最新脚本备份 (便于对照与回溯)
-├── data/                         # 测试数据集 (需自行准备，已 gitignore)
+├── train_data                    # 官方训练数据集
 │   ├── P1/
 │   ├── P2/
 │   └── P3/
-├── models/                       # 模型权重文件 (需自行下载，已 gitignore)
+├── data/                         # 官方测试数据集
+│   ├── P1/
+│   ├── P2/
+│   └── P3/
+├── models/                       # 模型权重文件 (会自动下载yolov8模型，)
 ├── outputs/                      # 算法运行结果输出目录
 ├── docs/                         # 补充说明文档与培训 PPT
 ├── requirements.txt              # Python 依赖清单
