@@ -41,8 +41,8 @@ def is_red_blue_or_gray_from_hsv(avg_h, avg_s, avg_v):
 def analyze_person_color(source_hsv, keypoint_set, indices):
     """
     分析一个人的上衣主色。
-    策略：统计4个关键点3x3区域内的所有像素颜色，
-          若“灰色系”与某非灰色颜色票数相同，则优先选择非灰色颜色。
+    策略：统计4个关键点3x3区���内的所有像素颜色，
+          若"灰色系"与某非灰色颜色票数相同，则优先选择非灰色颜色。
     """
     h, w = source_hsv.shape[:2]
     all_pixel_colors = []
@@ -84,13 +84,13 @@ def analyze_person_color(source_hsv, keypoint_set, indices):
     # 找出所有得票等于 max_count 的颜色
     top_colors = [color for color, count in most_common if count == max_count]
 
-    # 如果“灰色系”在 top_colors 中，且还有其他非灰色颜色 → 排除灰色
+    # 如果"灰色系"在 top_colors 中，且还有其他非灰色颜色 → 排除灰色
     if "灰色系" in top_colors and len(top_colors) > 1:
         # 优先选择非灰色的颜色（按红、蓝顺序）
         for candidate in ["红色系", "蓝色系"]:
             if candidate in top_colors:
                 return candidate
-        # 如果没有红/蓝，但有“其他”，也优先于灰色
+        # 如果没有红/蓝，但有"其他"，也优先于灰色
         if "其他" in top_colors:
             return "其他"
         # 否则 fallback 到第一个非灰色（理论上不会走到这里）
@@ -368,6 +368,9 @@ def process_image(model, img_path: str, output_dir: str, config: dict):
 
             # === 关键修复：将这个人的关键点加入最终列表 ===
             final_unique_keypoints.append(keypoint_set)
+            
+            # === 修复：标记找到了新的人 ===
+            found_new_person = True
 
 
         # 如果这一轮没有找到新的人，也退出
@@ -426,12 +429,6 @@ def process_image(model, img_path: str, output_dir: str, config: dict):
     output_path = os.path.join(output_dir, filename)
     cv2.imwrite(output_path, source)
 
-    source = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
-    output_path = os.path.join(output_dir, filename)
-    cv2.imwrite(output_path, source)
-
-
-
     return filename, person_num, red, blue, gray
 
 
@@ -461,7 +458,7 @@ def main():
     print("检测结果汇总：")
     print("="*80)
     for img_name, num_persons, red, blue, gray in results_list:
-        print(f"图片“{img_name}”：总人数{num_persons}人；红色系{red}人，蓝色系{blue}人，灰色系{gray}人")
+        print(f"图片"{img_name}"：总人数{num_persons}人；红色系{red}人，蓝色系{blue}人，灰色系{gray}人")
 
 if __name__ == "__main__":
     main()
