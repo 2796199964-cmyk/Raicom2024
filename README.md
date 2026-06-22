@@ -52,7 +52,7 @@ Raicom2024/
 │   ├── P1/
 │   ├── P2/
 │   └── P3/
-├── models/                       # 模型权重文件 (会自动下载yolov8模型，)
+├── models/                       # 模型权重文件 (会自动下载yolov8模型)
 ├── outputs/                      # 算法运行结果输出目录
 ├── docs/                         # 补充说明文档与培训 PPT
 ├── requirements.txt              # Python 依赖清单
